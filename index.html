@@ -7,7 +7,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <h1>Google Sign-In Demo</h1>
+  <h1>Immigrate Forward Development</h1>
 
   <!-- Google Sign-In button -->
   <div id="g_id_onload"
@@ -29,6 +29,16 @@
 
   <button onclick="signOut()">Sign Out</button>
 
+  <h1>Contact Us</h1>
+    <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+    <p id="responseMessage"></p>
+
+    <!-- google sign-in script -->
   <script>
     function handleCredentialResponse(response) {
       console.log("Encoded JWT ID token: " + response.credential);
@@ -71,5 +81,42 @@
     });
     }
   </script>
+
+<!-- nodemailer script -->
+<script>
+    const form = document.getElementById('contactForm');
+    const responseMessage = document.getElementById('responseMessage');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        try {
+            const response = await fetch('http://localhost:3000/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, message }),
+            });
+
+            const result = await response.text();
+
+            if (response.ok) {
+                responseMessage.style.color = 'green';
+                responseMessage.textContent = result;
+                form.reset();
+            } else {
+                responseMessage.style.color = 'red';
+                responseMessage.textContent = result;
+            }
+        } catch (error) {
+            responseMessage.style.color = 'red';
+            responseMessage.textContent = 'Error submitting the form. Please try again.';
+            console.error('Error:', error);
+        }
+    });
+</script>
 </body>
 </html>

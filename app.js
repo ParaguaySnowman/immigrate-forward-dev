@@ -1,10 +1,13 @@
-// server.js
+// app.js
+
+const bodyParser = require("body-parser");
+const cors = require('cors');
+const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
-const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const dotenv = require("dotenv");
-const bodyParser = require("body-parser");
+const nodemailer = require('nodemailer');
+const session = require("express-session");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -14,6 +17,16 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
+app.use(cors());
+
+// frontend resources served from root directory for now
+app.use(express.static("."));
+
+// log incoming requests to the server
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
 
 // MongoDB connection
 mongoose
@@ -74,12 +87,41 @@ app.post("/logout", (req, res) => {
   });
 });
 
-app.use(express.static("."));
+// POST route to handle contact form submission
+app.post('/contact', async (req, res) => {
+    const { name, email, message } = req.body;
 
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-  });
+    if (!name || !email || !message) {
+        return res.status(400).send('All fields are required!');
+    }
+
+    try {
+        // Create a transporter
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'trainersnowman@gmail.com', // Replace with your email
+                pass: 'lvgc htwc ljyj ygdm', // Replace with your email password or app-specific password
+            },
+        });
+
+        // Define email options
+        const mailOptions = {
+            from: email,
+            to: 'parker.b.mortensen@gmail.com', // Replace with your receiving email
+            subject: `Contact Form Submission from ${name}`,
+            text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).send('Message sent successfully!');
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send('Error sending message. Please try again later.');
+    }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
