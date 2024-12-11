@@ -27,6 +27,8 @@
        data-logo_alignment="left">
   </div>
 
+  <button onclick="signOut()">Sign Out</button>
+
   <script>
     function handleCredentialResponse(response) {
       console.log("Encoded JWT ID token: " + response.credential);
@@ -55,6 +57,18 @@
           }
         })
         .catch((err) => console.error("Error authenticating user:", err));
+    }
+
+    function signOut() {
+    // Disable auto-select for the current user
+    google.accounts.id.disableAutoSelect();
+
+    // Revoke the current user's token
+    const email = ""; // Pass the user's email if available
+    google.accounts.id.revoke(email, (response) => {
+        console.log("User signed out:", response);
+        alert("You have been signed out.");
+    });
     }
   </script>
 </body>
