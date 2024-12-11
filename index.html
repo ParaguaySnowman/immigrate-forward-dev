@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign-In Demo</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <h1>Google Sign-In Demo</h1>
+
+  <!-- Google Sign-In button -->
+  <div id="g_id_onload"
+       data-client_id="719950625476-c6lqsgfff6nfj04s3b5bn6687hq0h33s.apps.googleusercontent.com"
+       data-context="signin"
+       data-ux_mode="popup"
+       data-callback="handleCredentialResponse"
+       data-auto_prompt="false">
+  </div>
+
+  <div class="g_id_signin"
+       data-type="standard"
+       data-shape="rectangular"
+       data-theme="outline"
+       data-text="signin_with"
+       data-size="large"
+       data-logo_alignment="left">
+  </div>
+
+  <script>
+    function handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+
+      // Decode the JWT token to extract user information
+      const tokenPayload = JSON.parse(atob(response.credential.split('.')[1]));
+      console.log("Decoded JWT payload:", tokenPayload);
+
+      const user = {
+        googleId: tokenPayload.sub,
+        name: tokenPayload.name,
+        email: tokenPayload.email,
+      };
+
+      // Send the user data to the backend
+      fetch("/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.message === "User authenticated") {
+            alert("Welcome, " + data.user.name);
+          }
+        })
+        .catch((err) => console.error("Error authenticating user:", err));
+    }
+  </script>
+</body>
+</html>
