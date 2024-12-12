@@ -20,14 +20,15 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // HTTPS middleware to enforce secure connections in production
-if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(`https://${req.headers.host}${req.url}`);
-    }
-    next();
-  })
-}
+// (currently breaks nodemailer)
+// if (process.env.NODE_ENV === 'production') {
+//   app.use((req, res, next) => {
+//     if (req.headers['x-forwarded-proto'] !== 'https') {
+//       return res.redirect(`https://${req.headers.host}${req.url}`);
+//     }
+//     next();
+//   })
+// }
 
 // frontend resources served from root directory for now
 app.use(express.static("."));
