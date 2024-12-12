@@ -39,48 +39,62 @@
     <p id="responseMessage"></p>
 
     <!-- google sign-in script -->
-  <script>
-    function handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token: " + response.credential);
-
-      // Decode the JWT token to extract user information
-      const tokenPayload = JSON.parse(atob(response.credential.split('.')[1]));
-      console.log("Decoded JWT payload:", tokenPayload);
-
-      const user = {
-        googleId: tokenPayload.sub,
-        name: tokenPayload.name,
-        email: tokenPayload.email,
-      };
-
-      // Send the user data to the backend
-      fetch("/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.message === "User authenticated") {
-            alert("Welcome, " + data.user.name);
+    <script>
+      function handleCredentialResponse(response) {
+          console.log("Encoded JWT ID token: " + response.credential);
+    
+          // Decode the JWT token to extract user information
+          const tokenPayload = JSON.parse(atob(response.credential.split('.')[1]));
+          console.log("Decoded JWT payload:", tokenPayload);
+    
+          const user = {
+              googleId: tokenPayload.sub,
+              name: tokenPayload.name,
+              email: tokenPayload.email,
+          };
+    
+          // Save user to local storage
+          localStorage.setItem("user", JSON.stringify(user));
+    
+          // Send the user data to the backend
+          fetch("/auth/google", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(user),
+          })
+          .then((res) => res.json())
+          .then((data) => {
+              if (data.message === "User authenticated") {
+                  alert("Welcome, " + data.user.name);
+              }
+          })
+          .catch((err) => console.error("Error authenticating user:", err));
+      }
+    
+      // Check for a stored user on page load
+      window.addEventListener("load", () => {
+          const storedUser = localStorage.getItem("user");
+          if (storedUser) {
+              const user = JSON.parse(storedUser);
+              alert(`Welcome back, ${user.name}!`);
           }
-        })
-        .catch((err) => console.error("Error authenticating user:", err));
-    }
+      });
+    
+      function signOut() {
+    // Clear the user data from local storage
+    localStorage.removeItem("user");
 
-    function signOut() {
     // Disable auto-select for the current user
     google.accounts.id.disableAutoSelect();
 
     // Revoke the current user's token
-    const email = ""; // Pass the user's email if available
-    google.accounts.id.revoke(email, (response) => {
-        console.log("User signed out:", response);
+    google.accounts.id.revoke("", (response) => {
         alert("You have been signed out.");
+        console.log("User signed out:", response);
     });
-    }
-  </script>
+}
+    </script>
+    
 
 <!-- nodemailer script -->
 <script>
