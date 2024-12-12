@@ -16,17 +16,29 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(bodyParser.json());
 app.use(cors());
 
-// frontend resources served from root directory for now
-app.use(express.static("."));
+// Body-parser middleware for parsing nested objects.
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Frontend resources served from "public" directory
+app.use(express.static('public'));
+
+// View engine setup
+app.set('view engine', 'ejs');
 
 // log incoming requests to the server
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);
     next();
   });
+
+  // Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
 
 // MongoDB connection
 mongoose
