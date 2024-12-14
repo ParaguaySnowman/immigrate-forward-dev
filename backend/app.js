@@ -12,9 +12,16 @@ const errorMiddleware = require('./middlewares/errorMiddleware');
 const app = express();
 
 // Middleware
-app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
+//CORS
+const allowedOrigins = ['https://immigrate-forward-dev.netlify.app', 'https://immigrate-forward-dev.onrender.com'];
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+}));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {})
