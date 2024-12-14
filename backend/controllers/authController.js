@@ -3,10 +3,10 @@ const User = require('../models/User');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 exports.googleAuth = async (req, res) => {
-    const { token } = req.body; // Expect token from frontend
+    const { token } = req.body;
 
     if (!token) {
-        console.error("No token provided in request body");
+        console.error("No token received in request body:", req.body); // Log the entire body
         return res.status(400).json({ message: "Token is required" });
     }
 
@@ -21,8 +21,6 @@ exports.googleAuth = async (req, res) => {
         const name = payload.name;
         const email = payload.email;
 
-        console.log("Google token payload:", payload); // Debugging the payload
-
         let user = await User.findOne({ googleId });
         if (!user) {
             user = new User({ googleId, name, email });
@@ -32,11 +30,10 @@ exports.googleAuth = async (req, res) => {
         req.session.userId = user._id;
         res.status(200).json({ message: "User authenticated", user });
     } catch (error) {
-        console.error("Error during authentication:", error.message);
+        console.error("Error during authentication:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
-
 
 exports.logout = (req, res) => {
     req.session.destroy((err) => {

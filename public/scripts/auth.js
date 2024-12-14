@@ -1,16 +1,17 @@
 function handleCredentialResponse(response) {
-    const token = response.credential; // This is the ID token from Google
+    const token = response.credential; // Extract token from Google response
 
     if (!token) {
-        console.error("Google Sign-In returned no token");
+        console.error("No token received from Google Sign-In");
         return;
     }
 
-    // Send the token to the backend
+    console.log("Sending token to backend:", token); // Log the token for debugging
+
     fetch('https://immigrate-forward-dev.onrender.com/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }), // Sending token to backend
+        body: JSON.stringify({ token }), // Send token to backend
     })
         .then((res) => res.json())
         .then((data) => {
@@ -22,6 +23,7 @@ function handleCredentialResponse(response) {
         })
         .catch((err) => console.error('Error:', err));
 }
+
 
 
 function signOut() {
