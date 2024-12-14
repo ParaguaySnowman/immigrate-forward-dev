@@ -6,7 +6,8 @@ form.addEventListener('submit', async (event) => {
     const message = document.getElementById('message').value;
 
     try {
-        const response = await fetch('/contact', {
+        fetch('https://immigrate-forward-dev.onrender.com/contact', {
+        // const response = await fetch('/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, message }),

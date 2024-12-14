@@ -8,7 +8,8 @@ function handleCredentialResponse(response) {
 
     localStorage.setItem('user', JSON.stringify(user));
 
-    fetch('/auth/google', {
+    fetch('https://immigrate-forward-dev.onrender.com/auth/google', {
+    // fetch('/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
