@@ -18,6 +18,7 @@ function handleCredentialResponse(response) {
             console.log("Response from backend:", data);
             if (data.message === 'User authenticated') {
                 alert(`Welcome, ${data.user.name}!`);
+                window.location.href = 'https://immigrate-forward-dev.netlify.app/';
             } else {
                 console.error('Authentication failed:', data);
             }
