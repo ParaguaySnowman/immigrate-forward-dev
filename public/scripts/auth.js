@@ -1,10 +1,16 @@
 function handleCredentialResponse(response) {
-    const token = response.credential; // JWT token from Google
+    const token = response.credential; // This is the ID token from Google
 
+    if (!token) {
+        console.error("Google Sign-In returned no token");
+        return;
+    }
+
+    // Send the token to the backend
     fetch('https://immigrate-forward-dev.onrender.com/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }), // Send token to backend
+        body: JSON.stringify({ token }), // Sending token to backend
     })
         .then((res) => res.json())
         .then((data) => {
@@ -16,6 +22,7 @@ function handleCredentialResponse(response) {
         })
         .catch((err) => console.error('Error:', err));
 }
+
 
 function signOut() {
     localStorage.removeItem('user');

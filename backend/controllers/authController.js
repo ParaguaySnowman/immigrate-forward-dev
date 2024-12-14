@@ -5,37 +5,38 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 exports.googleAuth = async (req, res) => {
     const { token } = req.body; // Expect token from frontend
 
+    if (!token) {
+        console.error("No token provided in request body");
+        return res.status(400).json({ message: "Token is required" });
+    }
+
     try {
-        // Verify the token with Google
         const ticket = await client.verifyIdToken({
             idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
 
-        // Extract payload from the token
         const payload = ticket.getPayload();
-        const googleId = payload.sub; // Google's unique user ID
+        const googleId = payload.sub;
         const name = payload.name;
         const email = payload.email;
 
-        if (!googleId || !name || !email) {
-            return res.status(400).json({ message: 'Invalid token payload' });
-        }
+        console.log("Google token payload:", payload); // Debugging the payload
 
-        // Check if the user exists or create a new one
         let user = await User.findOne({ googleId });
         if (!user) {
             user = new User({ googleId, name, email });
             await user.save();
         }
 
-        req.session.userId = user._id; // Optional: if using session for login state
-        res.status(200).json({ message: 'User authenticated', user });
+        req.session.userId = user._id;
+        res.status(200).json({ message: "User authenticated", user });
     } catch (error) {
-        console.error('Error during authentication:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        console.error("Error during authentication:", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
 
 exports.logout = (req, res) => {
     req.session.destroy((err) => {
