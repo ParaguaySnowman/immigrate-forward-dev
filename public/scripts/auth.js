@@ -1,6 +1,8 @@
 function handleCredentialResponse(response) {
     const token = response.credential; // Extract token from Google response
 
+    alert(token); 
+    
     if (!token) {
         console.error("No token received from Google Sign-In");
         return;
