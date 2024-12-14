@@ -5,8 +5,6 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const authRoutes = require('./routes/authRoutes');
-const contactRoutes = require('./routes/contactRoutes');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
@@ -37,6 +35,9 @@ app.use(session({
 }));
 
 // Routes
+const authRoutes = require('./routes/authRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+
 app.use('/auth', authRoutes);
 app.use('/contact', contactRoutes);
 
