@@ -3,7 +3,7 @@ const User = require('../models/User');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 exports.googleAuth = async (req, res) => {
-    const { token } = req.body;
+    const token = req.body.token || req.body.credential; // Handle both `token` and `credential`
 
     if (!token) {
         console.error("No token received in request body:", req.body); // Log the entire body
