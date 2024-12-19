@@ -1,3 +1,6 @@
+//public/scripts/contact.js
+//(immigrate-forward-dev)
+
 const form = document.getElementById('contactForm');
 form.addEventListener('submit', async (event) => {
     event.preventDefault();

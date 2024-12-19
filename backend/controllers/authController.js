@@ -1,3 +1,6 @@
+//backend/controllers/authController.js
+//(immigrate-forward-dev)
+
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);

@@ -1,3 +1,6 @@
+//backend/routes/authRoutes.js
+//(immigrate-forward-dev)
+
 const express = require('express');
 const { googleAuth, logout } = require('../controllers/authController');
 const router = express.Router();

@@ -1,3 +1,6 @@
+//public/scripts/auth.js
+//(immigrate-forward-dev)
+
 function handleCredentialResponse(response) {
     const token = response.credential; // Extract token from response
 
