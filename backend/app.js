@@ -8,7 +8,6 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const flash = require('connect-flash');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
@@ -18,7 +17,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.use(flash());
 
 // CORS setup
 const allowedOrigins = ['https://immigrate-forward-dev.netlify.app', 'https://immigrate-forward-dev.onrender.com'];
