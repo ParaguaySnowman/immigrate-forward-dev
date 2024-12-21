@@ -7,13 +7,9 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
-const passport = require('passport');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const errorMiddleware = require('./middlewares/errorMiddleware');
-
-require('./config/db'); // MongoDB initialization
-require('./config/passport-setup'); // Passport configuration
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,8 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
 
 // CORS setup
 const allowedOrigins = ['https://immigrate-forward-dev.netlify.app', 'https://immigrate-forward-dev.onrender.com'];
