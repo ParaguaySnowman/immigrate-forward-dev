@@ -48,6 +48,9 @@ app.use((req, res, next) => {
     next();
 });
 
+// View engine setup
+app.set('view engine', 'ejs');
+
 // Routes
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
