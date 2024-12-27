@@ -1,1 +1,3 @@
 /* /index.html 200
+/content         https://immigrate-forward-dev.onrender.com/content 200
+/tutorials/*     https:/immigrate-forward-dev.onredner.com/tutorials/:splat 200
