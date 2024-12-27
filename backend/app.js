@@ -42,12 +42,6 @@ app.use(session({
     }
 }));
 
-// Custom middleware to pass user login status
-app.use((req, res, next) => {
-    res.locals.isLoggedIn = req.isAuthenticated();
-    next();
-});
-
 // View engine setup
 app.set('view engine', 'ejs');
 
