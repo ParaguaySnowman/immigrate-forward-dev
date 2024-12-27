@@ -4,7 +4,7 @@ const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
 const contentController = require('../controllers/contentController');
-const requireRegistration = require('../middleware/requireRegistration'); // Import the middleware
+const requireRegistration = require('../middlewares/requireRegistration'); // Import the middleware
 
 // Helper function to render views with layout
 function renderWithLayout(res, viewPath, title, headerType) {
