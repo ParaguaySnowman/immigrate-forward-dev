@@ -1,0 +1,29 @@
+<%# views/editProdile.ejs %>
+<%# (immigrate-forward4) %>
+
+<main>
+    <% if (isLoggedIn) { %>
+        <h1>Edit Your Profile</h1>
+        <form action="/user/editProfile" method="POST">
+    
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" value="<%= user.firstName %>"><br><br>
+    
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" name="lastName" value="<%= user.lastName %>"><br><br>
+
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="phoneNumber" name="phone[phoneNumber]" value="<%= user.phone.phoneNumber %>"><br><br>
+
+          <label for="optIn">SMS Opt-In:</label>
+          <input type="checkbox" id="optIn" name="smsPreferences[optIn]" <%= user.smsPreferences.optIn ? 'checked' : '' %>><br><br>
+
+          <label for="preferredLanguage">Preferred Language:</label>
+          <input type="text" id="preferredLanguage" name="smsPreferences[preferredLanguage]" value="<%= user.smsPreferences.preferredLanguage %>"><br><br>
+    
+          <button type="submit">Save Changes</button>
+        </form>
+      <% } else { %>
+        <p>Please log in to edit your profile.</p>
+      <% } %>
+</main>

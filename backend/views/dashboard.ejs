@@ -1,0 +1,16 @@
+<%# views/dashboard.ejs %>
+<%# (immigrate-forward4) %>
+
+<main>
+    <% if (isLoggedIn) { %>
+        <h1><%= message %></h1>
+        <h2>Your Profile</h2>
+        <p>First Name: <%= user.firstName %></p>
+        <p>Last Name: <%= user.lastName %></p>
+        <p>Email: <%= user.email %></p>
+        <% } else { %>
+        <p>Please log in to view your dashboard.</p>
+      <% } %>
+
+      <a href="/user/editProfile">Edit Profile</a>
+</main>

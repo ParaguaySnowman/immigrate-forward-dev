@@ -1,0 +1,34 @@
+<%# views/partials/_cards.ejs %>
+<%# (immigrate-forward4) %>
+
+<% if (item.attributes.media_type === 'video') { %> 
+    <div class="card"> 
+        <div class="aspect-ratio-container">
+            <% if (item.attributes.video) { %> 
+            <iframe 
+                src="https://www.youtube.com/embed/<%= item.attributes.video %>" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+            <% } %>
+        </div>
+        <h2><%= item.attributes.title %></h2> 
+    </div>
+<% } %>
+    
+<% if (item.attributes.media_type === 'document') { %> 
+    <div class="card"> 
+        <% if (item.attributes.thumbnail && item.attributes.document) { %> 
+        <% var imageURL = 'http://localhost:1337' + item.attributes.thumbnail.data.attributes.url; %>
+        <% var documentURL = 'http://localhost:1337' + item.attributes.document.data.attributes.url; %>
+        <div class="aspect-ratio-container">
+            <img class="card-img" src="<%= imageURL %>" alt="<%= item.attributes.title %>" onclick="window.open('<%= documentURL %>', '_blank')" style="cursor: pointer;"> 
+        </div>
+        <% } %>
+        <h2><%= item.attributes.title %></h2> 
+    </div>
+<% } %>
+
+    

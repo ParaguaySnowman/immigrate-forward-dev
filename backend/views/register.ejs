@@ -1,0 +1,27 @@
+<%# views/layout.ejs %>
+<%# (immigrate-forward4) %>
+
+<main>
+    <h2 data-lang-placeholder="registrationMessage"></h2>
+    <form action="/complete-registration" method="POST">
+        <label for="countryOfOrigin" data-lang-placeholder="countryOfOrigin"></label>
+        <input type="text" id="countryOfOrigin" name="countryOfOrigin">
+      
+        <label for="yearOfBirth" data-lang-placeholder="yearOfBirth"></label>
+        <input type="number" id="yearOfBirth" name="yearOfBirth">
+      
+        <label for="phoneNumber" data-lang-placeholder="phoneNumber"></label>
+        <input type="text" id="phoneNumber" name="phoneNumber">
+      
+        <label for="optIn" data-lang-placeholder="SMSOptIn"></label>
+        <input type="checkbox" id="optIn" name="optIn">
+      
+        <label for="preferredLanguage" data-lang-placeholder="preferredLanguage"></label>
+        <select id="preferredLanguage" name="preferredLanguage">
+          <option value="English">English</option>
+          <option value="Spanish">Español</option>
+        </select>
+      
+        <button type="submit">Complete Registration</button>
+      </form>
+</main>

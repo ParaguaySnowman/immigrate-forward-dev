@@ -1,0 +1,18 @@
+<%# views/partials/header.ejs %>
+<%# (immigrate-forward4) %>
+
+<header>
+    <h1 data-lang-placeholder="titleLink"></h1>
+    
+    <nav>
+        <a href="/" id="homeLink" data-lang-placeholder="homeLink"></a>
+        <a href="/content" id="contentLink" data-lang-placeholder="contentLink"></a>
+        <a href="#" id="languageLink" data-lang-placeholder="languageLink"></a>
+        <% if (locals.isLoggedIn) { %>
+            <a href="/user/myAccount" id="userLink" data-lang-placeholder="userLink"></a>
+            <a href="/logout" id="signOutLink" data-lang-placeholder="signOutLink"></a>
+        <% } else { %>
+            <a href="/auth/google" id="loginLink" data-lang-placeholder="signInLink"></a>
+        <% } %>
+    </nav>     
+</header>
