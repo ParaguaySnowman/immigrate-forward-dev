@@ -3,7 +3,7 @@ const router = express.Router();
 const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
-const User = require('../models/user.model'); // Adjust the path if necessary
+const User = require('../models/User.js'); // Adjust the path if necessary
 
 // Helper function to render views with layout
 function renderWithLayout(res, viewPath, title, additionalData = {}) {
