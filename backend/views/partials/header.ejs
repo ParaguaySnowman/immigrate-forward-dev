@@ -8,11 +8,23 @@
         <a href="/" id="homeLink" data-lang-placeholder="homeLink"></a>
         <a href="/content" id="contentLink" data-lang-placeholder="contentLink"></a>
         <a href="#" id="languageLink" data-lang-placeholder="languageLink"></a>
-        <% if (locals.isLoggedIn) { %>
-            <a href="/user/myAccount" id="userLink" data-lang-placeholder="userLink"></a>
-            <a href="/logout" id="signOutLink" data-lang-placeholder="signOutLink"></a>
-        <% } else { %>
-            <a href="/auth/google" id="loginLink" data-lang-placeholder="signInLink"></a>
-        <% } %>
+        <div id="g_id_onload"
+     data-client_id="719950625476-c6lqsgfff6nfj04s3b5bn6687hq0h33s.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup" 
+     data-callback="handleCredentialResponse"
+     data-auto_prompt="false">
+</div>
+
+  <div class="g_id_signin"
+       data-type="standard"
+       data-shape="rectangular"
+       data-theme="outline"
+       data-text="signin_with"
+       data-size="large"
+       data-logo_alignment="left">
+  </div>
+
+  <button onclick="signOut()">Sign Out</button>
     </nav>     
 </header>
