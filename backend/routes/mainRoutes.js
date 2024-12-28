@@ -13,7 +13,7 @@ function renderWithLayout(res, viewPath, title, headerType) {
 }
 
 // Apply requireRegistration middleware to the '/content' route
-router.get('/content', requireRegistration, (req, res) => {
+router.get('/content', (req, res) => {
     renderWithLayout(res, path.join(__dirname, '../views/content.ejs'), 'Content', 'content');
 });
 
